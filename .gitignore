@@ -26,7 +26,7 @@ ENV/
 Thumbs.db
 
 # Streamlit
-.streamlit/
+.streamlit/secrets.toml
 
 # Data files (optional - uncomment if you don't want to track CSV files)
 # *.csv

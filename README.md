@@ -30,33 +30,16 @@ pip install -r requirements.txt
 
 3. Set up your OpenAI API key
 
-**Option A: Using a .env file (Recommended for local development)**
+Create a `.streamlit/secrets.toml` file in the project root:
 
-Create a `.env` file in the project root:
-
-```bash
-# .env
-OPENAI_API_KEY=your-api-key-here
+```toml
+# .streamlit/secrets.toml
+OPENAI_API_KEY = "your-api-key-here"
 ```
 
 Get your API key from: https://platform.openai.com/api-keys
 
-**Option B: Using environment variables**
-
-**Windows (PowerShell):**
-```powershell
-$env:OPENAI_API_KEY="your-api-key-here"
-```
-
-**Windows (Command Prompt):**
-```cmd
-set OPENAI_API_KEY=your-api-key-here
-```
-
-**Mac/Linux:**
-```bash
-export OPENAI_API_KEY="your-api-key-here"
-```
+**Note:** The `secrets.toml` file is already in `.gitignore` to keep your API key secure.
 
 4. Run the app
 

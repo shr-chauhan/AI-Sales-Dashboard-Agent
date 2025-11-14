@@ -1,8 +1,6 @@
-import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from dotenv import load_dotenv
 
 from utils.data_utils import (
     load_sales_csv,
@@ -13,9 +11,6 @@ from utils.data_utils import (
 )
 from utils.ai_insights import generate_sales_insights
 
-# Load environment variables from .env file (if it exists)
-load_dotenv()
-
 st.set_page_config(page_title="AI Sales Dashboard Agent", layout="wide")
 
 st.title("📊 AI Sales Dashboard Agent")
@@ -23,12 +18,14 @@ st.markdown(
     "Upload a **sales CSV** and this agent will automatically generate charts and AI-powered insights."
 )
 
-# Read API key
-OPENAI_KEY = os.environ.get("OPENAI_API_KEY")
-if not OPENAI_KEY:
+# Read API key from Streamlit secrets
+try:
+    OPENAI_KEY = st.secrets["OPENAI_API_KEY"]
+except (KeyError, FileNotFoundError):
+    OPENAI_KEY = None
     st.warning(
-        "OPENAI_API_KEY not found in environment variables. "
-        "Set it before using the AI insights feature."
+        "OpenAI API key not found in Streamlit secrets. "
+        "Please add it to `.streamlit/secrets.toml` to enable AI insights."
     )
 
 uploaded_file = st.file_uploader("Upload Sales CSV", type=["csv"])
@@ -165,7 +162,7 @@ if uploaded_file is not None:
     st.subheader("🤖 AI Insights")
 
     if not OPENAI_KEY:
-        st.info("Set OPENAI_API_KEY to enable AI-generated insights.")
+        st.info("Add your OpenAI API key to `.streamlit/secrets.toml` to enable AI-generated insights.")
     else:
         if st.button("Generate AI Insights from Current View"):
             with st.spinner("Analyzing data and generating insights..."):
