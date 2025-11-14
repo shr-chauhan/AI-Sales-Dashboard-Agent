@@ -1,0 +1,7 @@
+streamlit
+pandas
+openai
+matplotlib
+plotly
+python-dateutil
+python-dotenv
