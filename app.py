@@ -13,7 +13,48 @@ from utils.ai_insights import generate_sales_insights
 
 st.set_page_config(page_title="AI Sales Dashboard Agent", layout="wide")
 
-st.title("📊 AI Sales Dashboard Agent")
+# Initialize session state for authentication
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+# Password protection
+if not st.session_state.authenticated:
+    st.title("🔐 Authentication Required")
+    
+    # Get password from secrets
+    try:
+        correct_password = st.secrets["APP_PASSWORD"]
+    except (KeyError, FileNotFoundError):
+        st.error("Password not configured in secrets.toml. Please add APP_PASSWORD to `.streamlit/secrets.toml`")
+        st.stop()
+    
+    # Password input and login button (centered with same width)
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        password = st.text_input("Enter password", type="password", label_visibility="collapsed")
+        login_button = st.button("Login", use_container_width=True)
+    
+    if login_button:
+        if password == correct_password:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("❌ Incorrect password. Please try again.")
+    
+    st.info("💡 Enter the password to access the AI Sales Dashboard Agent.")
+    st.stop()
+
+# Main app (only shown if authenticated)
+# Header with title and logout button
+col_title, col_logout = st.columns([5, 1])
+with col_title:
+    st.title("📊 AI Sales Dashboard Agent")
+with col_logout:
+    st.write("")  # Spacing
+    if st.button("🚪 Logout", use_container_width=True):
+        st.session_state.authenticated = False
+        st.rerun()
+
 st.markdown(
     "Upload a **sales CSV** and this agent will automatically generate charts and AI-powered insights."
 )

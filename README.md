@@ -28,18 +28,23 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Set up your OpenAI API key
+3. Set up your secrets
 
 Create a `.streamlit/secrets.toml` file in the project root:
 
 ```toml
 # .streamlit/secrets.toml
+# App password (required to access the dashboard)
+APP_PASSWORD = "your-secure-password-here"
+
+# OpenAI API Key
 OPENAI_API_KEY = "your-api-key-here"
 ```
 
-Get your API key from: https://platform.openai.com/api-keys
+- **APP_PASSWORD**: Set a password to protect access to the dashboard
+- **OPENAI_API_KEY**: Get your API key from: https://platform.openai.com/api-keys
 
-**Note:** The `secrets.toml` file is already in `.gitignore` to keep your API key secure.
+**Note:** The `secrets.toml` file is already in `.gitignore` to keep your credentials secure.
 
 4. Run the app
 
